@@ -2,7 +2,7 @@
 title: "PA1 Activity"
 author: "Vadim Shev"
 date: "Sunday, March 08, 2015"
-output: html_document
+output: pdf_document
 ---
 
 ## Synopsis
@@ -40,7 +40,6 @@ The following packages were used for making this analysis.
 ```{r}
 library(dplyr)
 library(plyr)
-library(mice)
 library(lubridate)
 library(lattice)
 ```
@@ -101,25 +100,20 @@ nrow(data)-nrow(na.omit(data))
 
 2. Create a new dataset that is equal to the original dataset but with the missing data filled in.
 Make a histogram of the total number of steps taken each day for new datas.
-To do this, we will use the package "mice"
+For this, we combine a first data and average values over the intervals. 
+And then instead of the values NA we substitute the average value for the same interval.
 ```{r}
-imp<-mice(data, m=5)
-fit<-with(imp, mean(steps~interval+date))
-pooled<-pool(fit)
-summary(pooled)
+data_new<-merge(data, data_5min, by="interval")
 
-data1<-complete(imp, action=1)
-data2<-complete(imp, action=2)
-data3<-complete(imp, action=3)
-data4<-complete(imp, action=4)
-data5<-complete(imp, action=5)
-
-data5<-complete(imp, action=5)
-
-data_mean5<-ddply(data5, .(date), summarise, 
-                 steps_day=sum(steps, na.rm = TRUE))
+data_new<-within(data_new, {
+  steps<-ifelse(is.na(steps), steps_5min, steps)
+ })
+data_mean5<-ddply(data_new, .(date), summarise, 
+                  steps_day=sum(steps))
 hist(data_mean5$steps_day, breaks=20, main="Number steps per day", xlab="")
 ```
+
+We see a sharp increase in the frequency of the average number of steps per day
 
 3. Calculate and report the mean and median total number of steps taken per day
 
@@ -131,12 +125,14 @@ print(steps_mean5)
 ### Median steps per day
 print(steps_median5)
 ```
-We see that mean and median numder of steps per day increased by a 1500-2000 steps.
+
+We see that the average greatly increased and became equal to the median.
 
 ##Are there differences in activity patterns between weekdays and weekends?
 
 Make a panel plot containing a time series plot (i.e. type = "l") of the 5-minute interval (x-axis)
 and the average number of steps taken, averaged across all weekday days or weekend days (y-axis)
+
 ```{r}
 data$wd<-wday(data$date)
 data<-within(data, wend<-ifelse(wd <= 5, 'weekday', 'weekend'))
@@ -145,4 +141,5 @@ data_5min_w<-ddply(data, .(interval, wend), summarise,
 xyplot(steps_5min ~ interval | wend, data=data_5min_w, layout = c(1, 2), 
        type = "l", ylab="Namber of steps") ### Plot with 2 panels
 ```
+
 From these graphs we can see that the activity during the week are lower than the weekend
