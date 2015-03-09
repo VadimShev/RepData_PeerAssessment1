@@ -106,7 +106,7 @@ with(data_5min, {
       })
 ```
 
-![plot of chunk unnamed-chunk-6](plot1.png) 
+![plot of chunk unnamed-chunk-6](figures/plot1.png) 
 
 2. Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
 
