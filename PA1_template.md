@@ -19,7 +19,7 @@ of October and November, 2012 and include the number of steps taken in 5 minute 
 ## Loading and preprocessing the data
 
 For this analysis, we download data. If the file already exists,
-we don’t re-download it. We use the unzip file method and read .csv file.
+we donâ€™t re-download it. We use the unzip file method and read .csv file.
 
 
 ```r
@@ -66,7 +66,7 @@ sum(data_sum$steps_day)
 hist(data_sum$steps_day, breaks=20, main="Number steps per day", xlab="")
 ```
 
-![plot of chunk unnamed-chunk-4](figure/unnamed-chunk-4-1.png) 
+![plot of chunk unnamed-chunk-4](figures/Hist1.png) 
 
 3. Calculate and report the mean and median of the total number of steps taken per day
 
@@ -106,7 +106,7 @@ with(data_5min, {
       })
 ```
 
-![plot of chunk unnamed-chunk-6](figure/unnamed-chunk-6-1.png) 
+![plot of chunk unnamed-chunk-6](plot1.png) 
 
 2. Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
 
@@ -156,7 +156,7 @@ data_mean5<-ddply(data_new, .(date), summarise,
 hist(data_mean5$steps_day, breaks=20, main="Number steps per day", xlab="")
 ```
 
-![plot of chunk unnamed-chunk-9](figure/unnamed-chunk-9-1.png) 
+![plot of chunk unnamed-chunk-9](figures/Hist2.png) 
 
 We see a sharp increase in the frequency of the average number of steps per day
 
@@ -200,8 +200,8 @@ xyplot(steps_5min ~ interval | wend, data=data_5min_w, layout = c(1, 2),
        type = "l", ylab="Namber of steps") ### Plot with 2 panels
 ```
 
-![plot of chunk unnamed-chunk-11](figure/unnamed-chunk-11-1.png) 
+![plot of chunk unnamed-chunk-11](figures/week_weekend.png) 
 
 From these graphs we can see that the activity during the week are lower than the weekend
 
-knit2html()
+
