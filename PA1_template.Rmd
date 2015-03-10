@@ -143,5 +143,3 @@ xyplot(steps_5min ~ interval | wend, data=data_5min_w, layout = c(1, 2),
 ```
 
 From these graphs we can see that the activity during the week are lower than the weekend
-
-knit2html()
